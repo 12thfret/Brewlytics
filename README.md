@@ -2,7 +2,7 @@
 
 This project focuses on building a web scraper to gather data from Singapore Coffee Roasters. It extracts detailed product information such as titles, prices, and attributes like region, variety, and elevation. The primary goal is to streamline data extraction and produce structured outputs for analysis or business insights. The creation of an App that will list these scraped products for viewing is also in the pipeline.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right"></p>
 
 ### Data Flow & Tech Stack
 
