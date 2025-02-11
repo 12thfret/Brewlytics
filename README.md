@@ -8,7 +8,7 @@ This project focuses on building a web scraper to gather data from Singapore Cof
 
 The data flow for the project is as follows:
 
-1. **Data Extraction**: Fetch data from the Coffee Roasters website's API using the `requests` library. Handle pagination to ensure comprehensive data coverage.
+1. **Data Extraction**: Fetch data from the Coffee Roasters website's using the `requests` library. Handle pagination to ensure comprehensive data coverage.
 2. **Data Parsing**: Parse HTML content using `BeautifulSoup` to extract relevant details embedded within the product descriptions.
 3. **Data Cleaning**: Use regular expressions to dynamically extract specific attributes such as "Region," "Variety," and "Elevation" from the textual content.
 4. **Data Formatting**: Structure the extracted data into a consistent format with keys like Title, Price, Region, Variety, and Elevation.
