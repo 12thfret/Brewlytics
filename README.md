@@ -15,6 +15,9 @@ The data flow for the project is as follows:
 5. **Data Storage**: Export the cleaned and structured data to a CSV file for further analysis using Google Big Query as the cloud data warehouse.
 6. **Further Data Processing**: Utilize SQL within Google Big Query to conduct further cleaning, transformation, and analysis. Implement a tiered data warehousing strategy with raw, intermediate, and cleaned datasets organized into data marts for streamlined querying and reporting.
 
+### Architecture Overview
+<img width="1042" alt="image" src="https://github.com/user-attachments/assets/4b589326-105a-402d-b558-2464b1d6da32" />
+
 The tech stack includes:
 - **Python**: Core programming language used for the scraper.
 - **Requests**: Fetch API data from the website.
