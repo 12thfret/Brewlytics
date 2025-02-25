@@ -6,27 +6,60 @@ This project focuses on building a web scraper to gather data from Singapore Cof
 
 ### Data Flow & Tech Stack
 
-The data flow for the project is as follows:
+The project’s data flow and tech stack are as follows:
 
-1. **Data Extraction**: Fetch data from the Coffee Roasters website's using the `requests` library. Handle pagination to ensure comprehensive data coverage.
-2. **Data Parsing**: Parse HTML content using `BeautifulSoup` to extract relevant details embedded within the product descriptions.
-3. **Data Cleaning**: Use regular expressions to dynamically extract specific attributes such as "Region," "Variety," and "Elevation" from the textual content.
-4. **Data Formatting**: Structure the extracted data into a consistent format with keys like Title, Price, Region, Variety, and Elevation.
-5. **Data Storage**: Export the cleaned and structured data to a CSV file for further analysis using Google Big Query as the cloud data warehouse.
-6. **Further Data Processing**: Utilize SQL within Google Big Query to conduct further cleaning, transformation, and analysis. Implement a tiered data warehousing strategy with raw, intermediate, and cleaned datasets organized into data marts for streamlined querying and reporting.
+- **Data Extraction**
+
+The scraper uses the requests library to make HTTP calls to the Coffee Roasters website.
+Pagination is handled to ensure comprehensive coverage of all products.
+Data Parsing
+
+The HTML content is parsed using BeautifulSoup, extracting relevant details embedded within product pages.
+Data Cleaning & Formatting
+
+Regular expressions (re) help identify and extract product attributes like Region, Variety, and Elevation from textual descriptions.
+Extracted data is structured with consistent keys (Title, Price, Region, Variety, Elevation).
+Data Storage & Automation
+
+Google Cloud Functions (2nd Gen) automates the entire scraping process.
+The scraper outputs a CSV in memory, which is then uploaded to Google Cloud Storage (GCS).
+The CSV file is loaded into Google BigQuery for downstream analysis.
+Pub/Sub and Cloud Scheduler can be configured to trigger this function on a defined schedule (e.g., monthly).
+Further Data Processing
+
+SQL queries in BigQuery handle advanced data transformations.
+Data is organized into raw, intermediate, and cleaned datasets—creating data marts that support streamlined querying and reporting.
 
 ### Architecture Overview
 <img width="1042" alt="image" src="https://github.com/user-attachments/assets/4b589326-105a-402d-b558-2464b1d6da32" />
 
-The tech stack includes:
-- **Python**: Core programming language used for the scraper.
-- **Requests**: Fetch API data from the website.
-- **BeautifulSoup**: Parse and extract HTML content.
-- **re (Regular Expressions)**: Dynamically identify and extract specific product attributes.
-- **CSV Module**: Save structured data into a CSV format for downstream processes.
-- **Google Big Query**: Cloud data warehouse for storing and processing large-scale data.
-- **SQL**: Perform advanced data cleaning and create data marts for efficient analysis.
+- **Cloud Scheduler (Optional)**
+Triggers a Pub/Sub message on a fixed schedule (e.g., monthly).
 
+- **Pub/Sub**
+Passes the message to the Cloud Function.
+
+- **Cloud Function (2nd Gen)**
+Scrapes the website with requests and BeautifulSoup.
+Cleans and structures the data.
+Generates a CSV in memory.
+Uploads the CSV to Cloud Storage.
+Loads data from Cloud Storage into BigQuery.
+
+- **BigQuery**
+Stores and processes the scraped data for further analysis or business insights.
+
+### Tech Stack Summary
+- **Python**: Core programming language.
+- **Requests**: Fetch HTML from the Coffee Roasters website.
+- **BeautifulSoup**: Parse and extract HTML elements.
+- **re** (Regular Expressions): Dynamically locate key attributes (e.g., Region, Variety, Elevation).
+- **CSV**: Store structured data before uploading to GCS.
+- **Google Cloud Storage**: Temporary holding of CSV files for ingestion.
+- **Google BigQuery**: Central data warehouse for large-scale storage and analysis.
+- **Cloud Functions (2nd Gen)**: Serverless environment for automating the scraping and ingestion.
+- **Pub/Sub**: Messaging service for triggering the function.
+- **Cloud Scheduler**: Optional scheduling service to run the function at intervals (e.g., monthly).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
