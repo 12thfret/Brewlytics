@@ -1,0 +1,6 @@
+# Ignore typical dev files
+*.pyc
+__pycache__/
+.env
+.venv/
+.ipynb_checkpoints/

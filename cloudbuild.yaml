@@ -1,0 +1,39 @@
+# Cloud Build to deploy the Cloud Function (2nd gen) to Cloud Run Functions
+# Trigger this on changes to functions/apify_to_gcs/**
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  _REGION: asia-southeast1
+  _SERVICE_ACCOUNT: cf-apify-gcs@${PROJECT_ID}.iam.gserviceaccount.com
+  _FUNCTION_NAME: apify-to-gcs
+  _ENTRY_POINT: ingest_apify_to_gcs
+  _RUNTIME: python312
+  # Set this in your Cloud Build trigger substitutions to the target bucket
+  _BUCKET: YOUR_BUCKET_NAME
+
+steps:
+  - id: "Deploy function"
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -lc
+      - |
+        set -euo pipefail
+        echo "Deploying function ${_FUNCTION_NAME}"
+        gcloud functions deploy ${_FUNCTION_NAME} \
+          --gen2 \
+          --region=${_REGION} \
+          --runtime=${_RUNTIME} \
+          --source=functions/apify_to_gcs \
+          --entry-point=${_ENTRY_POINT} \
+          --trigger-http \
+          --allow-unauthenticated \
+          --memory=512Mi \
+          --service-account=${_SERVICE_ACCOUNT} \
+          --set-env-vars=GCS_BUCKET=${_BUCKET}
+        # Uncomment to supply secrets at runtime via Secret Manager
+        #  --set-secrets=APIFY_TOKEN=projects/${PROJECT_ID}/secrets/APIFY_TOKEN:latest,WEBHOOK_SECRET=projects/${PROJECT_ID}/secrets/WEBHOOK_SECRET:latest
+
+# Optionally add images/artifacts here if needed
